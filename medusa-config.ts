@@ -28,5 +28,18 @@ module.exports = defineConfig({
   },
   modules: [
     { key: "api_key", resolve: "@medusajs/medusa/api-key" },
+    {
+    resolve: "@medusajs/medusa/payment",
+    options: {
+      providers: [
+        {
+          resolve: "medusa-payment-paystack",
+          options: {
+            secret_key: process.env.PAYSTACK_SECRET_KEY,
+          },
+        },
+      ],
+    },
+  },
   ],
 })
