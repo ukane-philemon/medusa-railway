@@ -38,6 +38,11 @@ module.exports = defineConfig({
             secret_key: process.env.PAYSTACK_SECRET_KEY,
           },
         },
+        {
+          resolve: "./src/modules/payment/providers/pay-on-delivery",
+          id: "pay_on_delivery",
+          options: {},
+        },
       ],
     },
   },
