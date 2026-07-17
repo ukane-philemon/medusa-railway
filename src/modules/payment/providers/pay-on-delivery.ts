@@ -25,6 +25,10 @@ import {
 class PayOnDeliveryProviderService extends AbstractPaymentProvider {
   static identifier = "pay_on_delivery"
 
+  constructor(container: any, options: any) {
+    super(container, options)
+  }
+
   async initiatePayment(
     context: InitiatePaymentInput
   ): Promise<InitiatePaymentOutput> {
