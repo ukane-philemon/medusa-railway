@@ -1,4 +1,4 @@
-import { loadEnv, defineConfig } from "@medusajs/framework/utils"
+import { defineConfig, loadEnv } from "@medusajs/framework/utils"
 
 loadEnv(process.env.NODE_ENV || "production", process.cwd())
 
@@ -29,42 +29,41 @@ module.exports = defineConfig({
   modules: [
     { key: "api_key", resolve: "@medusajs/medusa/api-key" },
     {
-    resolve: "@medusajs/medusa/payment",
-    options: {
-      providers: [
-        {
-          resolve: "medusa-payment-paystack",
+      resolve: "@medusajs/medusa/payment",
+      options: {
+        providers: [
+          {
+            resolve: "medusa-payment-paystack",
+            options: {
+              secret_key: process.env.PAYSTACK_SECRET_KEY,
+            },
+          },
+          {
+            resolve: "./src/modules/payment/providers/pay-on-delivery",
+            options: {},
+          },
+        ],
+      },
+    },
+    {
+      resolve: "@medusajs/medusa/file",
+      options: {
+        providers: [{
+          resolve: "@medusajs/medusa/file-s3",
+          id: "s3",
           options: {
-            secret_key: process.env.PAYSTACK_SECRET_KEY,
+            file_url: process.env.S3_FILE_URL,
+            access_key_id: process.env.S3_ACCESS_KEY_ID,
+            secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
+            region: process.env.S3_REGION,
+            bucket: process.env.S3_BUCKET,
+            endpoint: process.env.S3_ENDPOINT,
+            additional_client_config: {
+              forcePathStyle: true,
+            },
           },
-        },
-        {
-          resolve: "./src/modules/payment/providers/pay-on-delivery",
-          id: "pay_on_delivery",
-          options: {},
-        },
-      ],
+        }],
+      },
     },
-  },
-  {
-    resolve: "@medusajs/medusa/file",
-    options: {
-      providers: [{
-        resolve: "@medusajs/medusa/file-s3",
-        id: "s3",
-        options: {
-          file_url: process.env.S3_FILE_URL,
-          access_key_id: process.env.S3_ACCESS_KEY_ID,
-          secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
-          region: process.env.S3_REGION,
-          bucket: process.env.S3_BUCKET,
-          endpoint: process.env.S3_ENDPOINT,
-          additional_client_config: {
-            forcePathStyle: true,
-          },
-        },
-      }],
-    },
-   },
   ],
 })
