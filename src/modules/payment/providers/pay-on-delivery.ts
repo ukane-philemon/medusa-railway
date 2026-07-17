@@ -29,6 +29,7 @@ class PayOnDeliveryProviderService extends AbstractPaymentProvider {
     context: InitiatePaymentInput
   ): Promise<InitiatePaymentOutput> {
     return {
+      id: crypto.randomUUID(),
       data: {
         status: "pending_delivery",
       },
