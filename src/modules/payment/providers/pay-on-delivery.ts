@@ -1,4 +1,4 @@
-import { AbstractPaymentProvider } from "@medusajs/framework/utils"
+import { AbstractPaymentProvider, ModuleProvider, Modules } from "@medusajs/framework/utils"
 import {
   AuthorizePaymentInput,
   AuthorizePaymentOutput,
@@ -96,4 +96,6 @@ class PayOnDeliveryProviderService extends AbstractPaymentProvider {
   }
 }
 
-export default PayOnDeliveryProviderService
+export default ModuleProvider(Modules.PAYMENT, {
+  services: [PayOnDeliveryProviderService],
+})
